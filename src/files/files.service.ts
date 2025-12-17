@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { join } from 'path';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class FilesService {
+  constructor(private config: ConfigService) {}
+
   getFileUrl(filename: string) {
-    return `http://localhost:3000/uploads/${filename}`;
+    const base = this.config.get('UPLOAD_BASE_URL');
+    return `${base}/${filename}`;
   }
 }

@@ -3,9 +3,13 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { cors: true });
+  const config = app.get(ConfigService);
+
+  const port = config.get<number>('PORT') || 3000;
 
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,  // DTO未定义的字段自动过滤
@@ -17,6 +21,6 @@ async function bootstrap() {
     prefix: '/uploads',
   })
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(port);
 }
 bootstrap();
