@@ -27,6 +27,13 @@ import { FilesModule } from './files/files.module';
         database: config.get('DB_DATABASE'),
         autoLoadEntities: true,
         synchronize: true,
+
+        ssl: true,
+        extra: {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        },
       }),
     }),
 
